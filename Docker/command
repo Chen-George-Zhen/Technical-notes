@@ -1,0 +1,1 @@
+sudo docker run --name shostel-postgres -v /mnt/data_disk_1/www/shostel:/var/lib/postgresql/data -p 127.0.0.1:5432:5432  -e POSTGRES_PASSWORD=123456 -d postgres
