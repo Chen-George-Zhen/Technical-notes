@@ -1,1 +1,4 @@
 sudo docker run --name shostel-postgres -v /mnt/data_disk_1/www/shostel:/var/lib/postgresql/data -p 127.0.0.1:5432:5432  -e POSTGRES_PASSWORD=123456 -d postgres
+
+
+docker run --name mysql-3307 -v /mnt/data_disk_1/mysqlDB:/var/lib/mysql -p 127.0.0.1:3307:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql
