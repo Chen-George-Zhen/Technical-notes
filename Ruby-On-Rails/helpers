@@ -1,0 +1,43 @@
+1. rails helpers目录下的模块中的方法 在controller中可以使用 helpers.method_name 直接调用 或者 使用 include module_name 后使用，在veiw 中可以直接使用
+helper_method :method_name 可以将 controller的方法，暴露到view中
+
+2. cookies 相关知识
+cookies.signed['__user_id']
+cookies.permanent.signed['__user_id']
+
+3. 方法命名原则
+user_signed_in?      ？表示判断 一般返回 true or false
+authenticate_user!   ！表示比较危险的操作 或者需要慎用的
+
+4. 语法技巧
+@current_user ||= User.find_by(id: id)  '||=' 表示如果左边为nil, 用右侧 值为其赋值，否则 不赋值，还是原来的值
+ruby中 方法最后一行 为返回值
+
+5. 方法参数默认值
+user_sign_in(user, remember_me = false)
+
+6. request 方法
+request.original_fullpath
+request.host
+request.scheme
+request.remote_ip
+request.format
+request.user_agent
+request.url
+request.referer
+
+7. ruby Class
+attr :name
+attr_reader :name
+创建一个 @name 实例变量，和对应的 get方法：name
+
+attr_accessor :name
+创建一个 @name 实例变量，和对应的 get和set方法：name
+
+attr_writer
+创建一个 @name 实例变量，和对应的 set方法：name
+
+
+
+
+

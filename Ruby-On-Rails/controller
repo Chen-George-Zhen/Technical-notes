@@ -1,0 +1,6 @@
+1. 控制器回调
+skip_before_action
+before_action
+
+2. 使用lib 目录下Class
+require 'filename'
