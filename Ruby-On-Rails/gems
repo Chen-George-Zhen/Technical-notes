@@ -1,0 +1,70 @@
+# slim 模板
+gem 'slim-rails'
+
+# 调试
+gem 'pry'
+gem 'pry-nav'
+# console 更好的调试
+gem 'pry-rails'
+
+
+# Font-Awesome http://fortawesome.github.io/Font-Awesome/
+gem 'font-awesome-rails'
+
+# yaml文件配置信息
+gem 'settingslogic'
+
+# 分页
+gem 'kaminari'
+
+# for qiniu image
+gem 'qiniu', '>= 6.8.0'
+
+# HTTP Client
+gem 'faraday'
+
+# 过滤敏感词汇
+gem 'harmonious_dictionary'
+
+# 域名或者ip判断国家
+gem 'geoip', '~> 1.6'
+
+# 汉字转拼音
+gem 'chinese_pinyin'
+
+# 文件上传
+gem 'carrierwave', '~> 1.0'
+
+# Use Capistrano for deployment
+group :development do
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-rvm', require: false
+  gem 'better_errors'
+end
+
+# jquery UI 组件
+gem 'jquery-ui-rails'
+
+# pdf 生成
+gem 'pdfkit'
+gem 'wkhtmltopdf-binary'
+
+# 性能监控
+gem 'newrelic_rpm'
+
+# 状态机
+gem 'aasm'
+
+# 省市区
+gem 'china_city'
+
+#动态表单
+gem "cocoon"
+
+gem "browser"
+
+# 状态机
+gem 'statesman'
+
+# 跨域
+gem 'rack-cors'

@@ -4,3 +4,51 @@ before_action
 
 2. 使用lib 目录下Class
 require 'filename'
+
+3.rails 环境判断
+Rails.env.production?
+Rails.env.staging?
+Rails.env.development?
+
+4.rails 国际化
+I18n.locale
+I18n.t('admin.title') 调用
+
+5. 常用方法
+[relation].pluck[:colomn_name]  返回一个 数组
+[].sample(number) 数组中随机取出 number 元素，返回新数组
+String.gsub(string, sting)  字符串替换
+String.constantize  将字符串 转化为 model class
+
+6. rails 缓存
+datas = Rails.cache.fetch(key_string, expires_in: seconds) do
+  data_items
+end
+
+7. 查询
+includes(:sources, :source) 将关联表数据 一次性查出
+
+8. application_controller
+protect_from_forgery  打开请求保护，get请求除外 with: 参数设置 handler
+skip_before_action :verify_authenticity_token 跳过请求保护的安全验证
+
+layout 指定模板
+
+9. 正则表达式
+  Username = /\A[\p{Han}[a-zA-Z]][\p{Han}[a-zA-Z0-9]]{3,19}\z/
+  Email = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+  Mobile = /\A((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8]))\d{8}\z/
+  Password = /\A(?![0-9]+$)(?![a-zA-Z]+$)[\S]{6,16}\z/
+
+10.render js 时需要用 helpers.j 转化字符串
+render js: "alert('#{helpers.j(@user.errors.full_messages.join("\n"))}')"
+
+11. 字符串生成
+SecureRandom.base58 可以生成一个密码字符串
+
+12. 调试 gem pry
+binding.pry 断点
+
+
+
+

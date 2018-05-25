@@ -1,0 +1,28 @@
+{
+  "name": "mymart",
+  "private": true,
+  "dependencies": {
+    "@rails/webpacker": "^3.2.0",
+    "babel-polyfill": "^6.26.0",
+    "coffeescript": "1.12.7",
+    "font-awesome": "^4.7.0",
+    "framework7": "^2.0.5",
+    "html-webpack-include-assets-plugin": "^1.0.2",
+    "imports-loader": "^0.7.1",
+    "jquery": "^3.2.1",
+    "jquery-ui-dist": "^1.12.1",
+    "js-image-zoom": "^0.5.0",
+    "lazyload": "^2.0.0-beta.2",
+    "qiniu-js": "^1.0.24",
+    "sass-loader": "^6.0.6",
+    "semantic-ui-css": "^2.2.12",
+    "slm-loader": "^0.2.3",
+    "swiper": "^4.1.0",
+    "vue": "^2.5.13",
+    "vue-loader": "^13.7.0",
+    "vue-template-compiler": "^2.5.13"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^2.9.7"
+  }
+}

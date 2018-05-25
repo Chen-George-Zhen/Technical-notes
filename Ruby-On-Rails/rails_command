@@ -1,0 +1,15 @@
+rails new project_nam -d progresql --webpacker=vue
+rails new . -d mysql
+
+rails -T 查看task
+
+rails db:create
+rails db:migrate
+rails db:seed
+rails db:drop
+
+rails routes
+
+rails s -p 8623 -P tmp/pids/server.8623.pid -b 0.0.0.0
+
+rails command_name --hlep 查看帮助
