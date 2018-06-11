@@ -1,0 +1,31 @@
+官方网址： https://shadowsocks.org
+
+关于服务端和客户端的使用官网都有详细介绍
+https://shadowsocks.org/en/download/servers.html
+https://shadowsocks.org/en/download/clients.html
+
+下面我总结一种方式：
+
+1. 安装python (如果已经安装就不用了查看是否安装 python --verion, pip --version)
+apt-get install python-pip (如果出现问题就自行解决)
+
+2. 安装ssserver
+pip install shadowsocks
+
+3. 创建配置文件
+创建 /etc/shadowsocks.json(可以换成其他路径)，写入(vi, vim, echo)
+{
+  "server": "120.55.118.105",
+  "server_port":8388,
+  "local_address": "127.0.0.1",
+  "local_port":1080,
+  "password": "Huangyuxiu520134",
+  "timeout":600,
+  "method": "rc4-md5"
+}
+
+4. 从创建的配置文件启动 ssserver 并后台运行 （可以查看 ssserver --help）
+ssserver -c /etc/shadowsocks.json -d start
+如果想停止 ssserver -c /etc/shadowsocks.json -d stop
+
+
