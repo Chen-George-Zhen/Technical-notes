@@ -49,6 +49,12 @@ SecureRandom.base58 可以生成一个密码字符串
 12. 调试 gem pry
 binding.pry 断点
 
+13. 模块的引入
+extend module 在定义类的时候使用，将模块中的方法 引入为 类方法
+include module  将模块中的方法 引入为 实例方法
+
+
+
 
 
 

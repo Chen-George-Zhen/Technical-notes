@@ -1,0 +1,39 @@
+1. 为model 添加属性
+attr_accessor
+
+2. mysql 数组字段
+serialize :colomn_name , Array
+
+3. 设置类常量
+ROLES = {} ， 访问时 Model::ROLES
+
+4. model 中常用的方法  后面接各种参数需要查文档
+scope 一般用于写查询
+has_many 一对多关系
+has_one  一对一
+belongs_to 多对一
+validates 验证
+
+5. 回调 按顺序排列
+创建
+before_validation
+after_validation
+before_save
+around_save
+before_create
+around_create
+after_create
+after_save
+after_commit / after_rollback
+更新
+before_validation
+after_validation
+before_save
+around_save
+before_update
+around_update
+after_update
+after_save
+after_commit / after_rollback
+等等、、、、、、,需要用的时候 查文档
+
