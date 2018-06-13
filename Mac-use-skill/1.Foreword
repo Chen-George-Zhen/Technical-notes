@@ -1,0 +1,22 @@
+此栏目将记录一些关于mac pro 的使用技巧
+
+
+1.mac 下使用读取ntfs盘，的解决思路是 将ntfs盘直接挂在mac上就可以了
+先查看挂在盘的情况：
+  diskutil list
+然后找到你的u盘的名称
+  例如 Volume name
+然后直接修改 /etc/fstab
+  vim /etc/fstab
+写人：
+LABEL=Volume/040name none ntfs rw,auto,nobrowse
+如果你的名字里面有空格键，就需要用\040的意思是代替空格键，如：BOOT/040CAMP。
+后面的Ntfs rw表示把这个分区挂载为可读写的ntfs格式，最后nobrowse非常重要，因为这个代表了在finder里不显示这个分区，这个选项非常重要，如果不打开的话挂载是不会成功的。
+
+保存后重启
+
+当然还有个缺陷需要去掉：因为这个分区在finder里不显示了，那么我们要怎么找到它呢，总不能一直用命令行。
+解决办法其实很简单，因为这个BOOTCAMP分区是挂/Volumes下的，我们把这个目录在桌面做一个快捷方式就行了。
+
+软连接创建快捷方式
+sudo ln -s /Volumes/VolumeName ~/Desktop/VolumeName

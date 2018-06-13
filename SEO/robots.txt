@@ -1,0 +1,60 @@
+robots.txt的主要作用是告诉蜘蛛爬虫该网站下哪些内容能抓取，哪些内容不能抓取。虽然可以没有robots.txt这个文件，默认就抓取该网站的所有文件，对搜索引擎爬虫没有任何的影响，但是如果你想控制蜘蛛的检索间隔，你就必须用robots.txt来控制。
+
+robots.txt不是一种规范，是约定俗成的，主流的搜索引擎都是遵循robots.txt的规则来索引页面，但是一些spam爬虫不会遵循，所以说robots.txt只能防君子，不能防小人，如果目录下有隐私的文件夹，建议设置密码或者登陆用户才能访问。
+
+robots.txt基本用法
+User-agent
+User-agent是用来匹配爬虫的，每个爬虫都会有一个名字，如果你有安装awstats统计工具，你就能查看到爬虫的名字，比如百度的爬虫叫BaiDuSpider，Google的爬虫叫Googlebot，*表示所有爬虫。
+
+Disallow
+Disallow表示禁止爬虫访问的目录。Disallow: / 表示拦截整站。
+
+Allow
+Allow表示允许爬虫访问的目录。Allow: / 表示允许整站。
+
+Sitemap
+Sitemap用来指定sitemap的位置。
+
+Crawl-delay
+Crawl-delay用来告诉爬虫两次访问的间隔，单位是秒。爬虫如果爬得很勤，对动态网站来说，压力有点大，可能会导致服务器负载增高，用户访问变慢。
+
+在计算Crawl-delay时间的时候，要稍微计算一下，ysearchblog上有篇日志，介绍得很清楚。
+
+通配符|wildcard match
+*：匹配任意多个字符
+
+$：表示URL的结尾
+
+注意|notice
+URL区分大小写，所以 /abc/ 和 /Abc/ 表示不同的目录。
+后面有没有斜杠也是不一样的，/private 和 /private/也表示两个不同的地址。
+例子|examples
+不管是Disallow，Allow还是Sitemap，每行只能写一条规则。Google本身就有一个robots.txt，值得大家参考。
+
+拦截部分文件或目录
+
+User-agent: *
+Disallow: /cgi-bin/
+Disallow: /aaa.html
+
+允许爬虫访问所有的目录，有两种写法
+
+User-agent: *
+Disallow:
+
+User-agent: *
+Allow: /
+
+通配符的使用，拦截.gif文件
+
+User-agent: *
+Disallow: /*.gif$
+
+拦截带有?的文件
+
+User-agent: *
+Disallow: /*?
+
+Sitemap例子
+
+Sitemap: https://www.ezloo.com/sitemap.xml
