@@ -40,7 +40,7 @@ ruby中常量的路径（作用域），类似文件系统中的目录，通过:
 object.class -> MyClass
 Module.class  ->  Class
 Class.superclass -> Module
-上面Module.class 指向的也是 Class类， 可以理解为 上面方框内容均为Class, 但是他们的父子组织关系通过 superclass 建立并存在异同，可以通过Class.ancestors 查看
+上面Module.class 指向的也是 Class类， 可以理解为 Module作为一个对象他的类 为Class, 但是他们的父子组织关系通过 superclass 建立并存在异同，可以通过Class.ancestors 查看
 
 12. 动态调用方法
 在ruby中通过Object#send方法可以代替点标识调用对象的指定实例方法
@@ -89,7 +89,7 @@ puts number_of.kitty
 与method_missing 类似，还有关于常量的const_misssing方法，当引用一个不存在的常量时，ruby 会把这个常量作为一个符号传递给const_missing方法.
 
 17. 白板类 blank slates
-拥有极少方法的类称之为 白板类， 通过集成BasicObject类， 可以迅速得到一个白板类，除了这种方法以外，还可以通过删除方法来将一个普通类变为白板类。
+拥有极少方法的类称之为 白板类， 通过继承BasicObject类， 可以迅速得到一个白板类，除了这种方法以外，还可以通过删除方法来将一个普通类变为白板类。
 
 18. 删除方法
   Module#undef_method
@@ -431,7 +431,7 @@ module MyModule
 end
 
 class MyClass
-    class < self
+    class << self
         include MyModule
     end
 end
@@ -824,3 +824,53 @@ Kernel#tap的定义和文档描述如下: ruby tap{|x|...} → obj
 Yields self to the block, and then returns self.** The primary purpose of this method is to “tap into” a method chain, in order to perform operations on intermediate results within the chain.**
 
 不过自己实现一个tap方法也不难: ruby class Object def tap yield self self end end
+
+
+实现 before_action
+
+module BeforeAction
+  def self.included(klass)
+    klass.extend(ClassMethods)
+  end
+
+  module ClassMethods
+    def before_action(method_name, options)
+      action_module = Module.new do
+        send :define_method, options[:for] do |*args, &block|
+          send method_name
+
+          super(*args, &block)
+        end
+      end
+
+      prepend action_module
+    end
+  end
+end
+
+class Speaker
+  include BeforeAction
+
+  before_action :chinese_self_intro, for: :speak
+
+  def speak
+    puts 'I am speaking...'
+  end
+
+  private
+
+  def chinese_self_intro
+    puts 'Hello, I come from china.'
+  end
+end
+
+speaker = Speaker.new
+speaker.speak
+
+puts speaker.class.ancestors
+puts speaker.singleton_class.methods
+
+上面 这段 代码的关键 是
+利用 prepend 在 Speaker 类实例 的祖先链 下方 重新 speak 方法， 并在调用 super 之前 调用 before_action 方法传递的指定方法
+上面代码有一个重点 就是 看清 方法调用时的 self, 什么时候是指 类， 什么时候是指 对象
+

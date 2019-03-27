@@ -1,0 +1,12 @@
+# 使用docker 搭建 shadowsocks
+# 境外 linx 服务器 安装好 docker 、docker-compose 后
+# 将此文件copy 到服务器上 例如： scp ./docker-compose.yml chenzhen@45.77.60.65:/home/chenzhen
+# 执行 在 服务器 docker-compose.yml 所在目录下执行： docker-compose up -d; 停用的话 docker-compose down
+version: '3'
+services:
+  ss:
+    image: shadowsocks/shadowsocks-libev
+    restart: always
+    command: ss-server -s 0.0.0.0 -p 10800 -k sohoer -m chacha20-ietf-poly1305 -u
+    ports:
+      - "10800:10800"

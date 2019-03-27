@@ -1,0 +1,54 @@
+upstream app_server {
+  server unix:/tmp/puma.app.niuniuway.sock fail_timeout=0;
+}
+
+server {
+  listen 80;
+  server_name niuniuway.com;
+
+  location / {
+    # return 301 $scheme://www.niuniuway.com$request_uri;
+    return 301 $scheme://www.niuniuway.com;
+  }
+}
+
+server {
+  listen 80;
+  server_name sg.niuniuway.com www.sg.niuniuway.com;
+
+  location / {
+    return 301 $scheme://www.niuniuway.com/sg;
+  }
+}
+
+server {
+  listen 80;
+  server_name my.niuniuway.com www.my.niuniuway.com;
+
+  location / {
+    return 301 $scheme://www.niuniuway.com/my;
+  }
+}
+
+server {
+  listen 80;
+  server_name www.niuniuway.com m.niuniuway.com admin.niuniuway.com;
+
+  location ~ \.(aspx|php|jsp|cgi)$ {
+     return 410;
+  }
+
+  location / {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_pass http://app_server;
+ }
+
+location /assets {
+    root /mnt/data_disk_1/www/niuniuway/niuniuway_production/shared/public;
+    gzip_static on;
+    expires max;
+    add_header Cache-Control public;
+    add_header Access-Control-Allow-Origin *;
+ }
+}

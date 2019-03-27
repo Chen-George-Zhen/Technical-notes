@@ -1,0 +1,36 @@
+upstream sg_wxminiapi_ershouweb_app_server {
+  server unix:/mnt/data_disk_1/www/ershou_web/ershou_web_production/shared/tmp/puma.app.ershou_web.sock fail_timeout=0;
+}
+
+server {
+  listen 80;
+  server_name sg.wxminiapi.mymart.xthinkapp.com;
+
+  location ~ \.(aspx|php|jsp|cgi)$ {
+     return 410;
+  }
+
+  location / {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_pass http://sg_wxminiapi_ershouweb_app_server;
+    proxy_buffering on;
+    proxy_buffers 32 16k;
+    proxy_set_header   Upgrade $http_upgrade;
+    proxy_set_header   Connection "Upgrade";
+    # gzip off;   # 当 https 时, 应该关闭?
+  }
+
+    listen 443 ssl http2; # managed by Certbot
+ssl_certificate /etc/letsencrypt/live/sg.wxminiapi.mymart.xthinkapp.com/fullchain.pem; # managed by Certbot
+ssl_certificate_key /etc/letsencrypt/live/sg.wxminiapi.mymart.xthinkapp.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+
+
+    # Redirect non-https traffic to https
+    # if ($scheme != "https") {
+    #     return 301 https://$host$request_uri;
+    # } # managed by Certbot
+
+}
+

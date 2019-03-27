@@ -1,0 +1,105 @@
+server {
+  listen 80;
+  server_name mymart.com m.mymart.com;
+  if ($host ~* mymart.com(.*)$) {
+    set $host_extension $1;
+    rewrite ^ $scheme://www.mymart.com$host_extension$request_uri permanent;
+  }
+}
+
+server {
+  listen 80;
+  server_name d.mymart.com;
+  rewrite ^ $scheme://d.mymart.sg$request_uri permanent;
+}
+
+server {
+  listen 80;
+  server_name www.sg.mymart.com m.sg.mymart.com d.sg.mymart.com www.my.mymart.com m.my.mymart.com d.my.mymart.com;
+  if ($host = www.sg.mymart.com) {
+    rewrite ^ $scheme://www.mymart.sg$request_uri permanent;
+  }
+  if ($host = m.sg.mymart.com) {
+    rewrite ^ $scheme://m.mymart.sg$request_uri permanent;
+  }
+  if ($host = d.sg.mymart.com) {
+    rewrite ^ $scheme://d.mymart.sg$request_uri permanent;
+  }
+  if ($host = www.my.mymart.com) {
+    rewrite ^ $scheme://www.mymart.com.my$request_uri permanent;
+  }
+  if ($host = m.my.mymart.com) {
+    rewrite ^ $scheme://m.mymart.com.my$request_uri permanent;
+  }
+  if ($host = d.my.mymart.com) {
+    rewrite ^ $scheme://d.mymart.com.my$request_uri permanent;
+  }
+}
+
+server {
+  listen 80;
+  server_name mymart.com.sg sg.mymart.com;
+  rewrite ^ $scheme://mymart.sg$request_uri permanent;
+}
+
+server {
+  listen 80;
+  server_name my.mymart.com;
+  rewrite ^ $scheme://mymart.com.my$request_uri permanent;
+}
+
+server {
+  listen 80;
+  server_name *.mymart.com.sg;
+  if ($host ~* (.*).mymart.com.sg) {
+    set $host_label $1;
+    rewrite ^ $scheme://$host_label.mymart.sg$request_uri permanent;
+  }
+}
+
+
+upstream ershou_web_production_app_server {
+  server unix:/mnt/data_disk_1/www/ershou_web/ershou_web_production/shared/tmp/puma.app.ershou_web.sock fail_timeout=0;
+}
+
+server {
+  listen 80;
+  server_name action-cable.mymart.xthinkapp.com action-cable.mymart.com mymart.sg *.mymart.sg mymart.com.my *.mymart.com.my kh.mymart.com *.kh.mymart.com *.mymart.com;
+
+  location ~ \.(aspx|php|jsp|cgi)$ {
+    return 410;
+  }
+
+  location ~ ^/(robots.txt|sitemap.xml.gz) {
+    root /mnt/data_disk_1/www/ershou_web/ershou_web_production/shared/public;
+    expires max;
+    break;
+  }
+
+  location = / {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_pass http://ershou_web_production_app_server;     
+    proxy_buffering on;
+    proxy_buffers 32 16k;
+  }
+
+  location / {
+    add_header 'Access-Control-Allow-Origin' '*';
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_pass http://ershou_web_production_app_server;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_buffering on;
+    proxy_buffers 32 16k;
+  }
+
+    listen 443 ssl; # managed by Certbot
+ssl_certificate /etc/letsencrypt/live/action-cable.mymart.xthinkapp.com/fullchain.pem; # managed by Certbot
+ssl_certificate_key /etc/letsencrypt/live/action-cable.mymart.xthinkapp.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+
+
+}
+
